@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générer une Facture</title>
+    <link rel="icon" href="logo.jpeg" type="image/x-icon">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        form { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; }
+        input, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
+        button { padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .item-group { margin-bottom: 15px; }
+        .item-group input { width: 48%; display: inline-block; margin-right: 4%; }
+        .item-group input:last-child { margin-right: 0; }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align: center;">Formulaire de Génération de Facture</h2>
+
+<form id="invoiceForm" action="invoice_display.php" method="POST" target="_blank" enctype="multipart/form-data">
+    <!-- Détails de la facture -->
+    <input type="text" name="invoiceNumber" placeholder="Numéro de la facture" required><br>
+    <input type="text" name="customerName" placeholder="Nom du client" required><br>
+    <input type="date" name="date" required><br>
+    
+    <!-- Champs pour les articles -->
+    <div id="itemsContainer">
+        <div class="item-group">
+            <input type="text" name="itemDescription[]" placeholder="Description de l'article" required><br>
+            <input type="number" name="quantity[]" placeholder="Quantité" required><br>
+            <input type="number" name="unitPrice[]" placeholder="Prix Unitaire" required><br>
+        </div>
+    </div>
+
+    <button type="button" onclick="addItem()">Ajouter un article</button><br><br>
+
+    <!-- Signature du vendeur -->
+    <label for="signatureInput">Signature du vendeur (image PNG ou JPG) :</label>
+    <input type="file" name="signatureInput" accept="image/png, image/jpeg" required><br>
+
+    <!-- Tampon de l'entreprise -->
+    <label for="stampInput">Tampon de l'entreprise (image PNG ou JPG) :</label>
+    <input type="file" name="stampInput" accept="image/png, image/jpeg" required><br>
+
+    <button type="submit">Générer la facture</button>
+</form>
+
+<script>
+    // Fonction pour ajouter un nouveau groupe d'articles
+    function addItem() {
+        // Crée un nouveau groupe d'inputs pour un article
+        const newItemGroup = document.createElement('div');
+        newItemGroup.classList.add('item-group');
+        
+        newItemGroup.innerHTML = `
+            <input type="text" name="itemDescription[]" placeholder="Description de l'article" required><br>
+            <input type="number" name="quantity[]" placeholder="Quantité" required><br>
+            <input type="number" name="unitPrice[]" placeholder="Prix Unitaire" required><br>
+        `;
+
+        // Ajoute ce groupe au container des articles
+        document.getElementById('itemsContainer').appendChild(newItemGroup);
+    }
+</script>
+
+</body>
+</html>
